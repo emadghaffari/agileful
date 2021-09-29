@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber"
 
@@ -15,8 +16,8 @@ import (
 func (app App) StartApplication(fbr *fiber.App) {
 
 	// init configs
-	// dir, _ := os.Getwd()
-	if err := Base.initConfigs("../config.yaml"); err != nil {
+	dir, _ := os.Getwd()
+	if err := Base.initConfigs(dir + "/config.yaml"); err != nil {
 		log.Println(err)
 		return
 	}

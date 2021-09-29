@@ -7,14 +7,13 @@ services:
   micro:
     build: 
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     volumes:
       - .:/go/src/application
     networks:
       - backend
     ports: 
-      - 1212:8080
-      - 1213:8081
+      - 3000:3000
 
   # -----------------------------
   # postgres database

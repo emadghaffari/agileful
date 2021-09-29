@@ -13,5 +13,7 @@ func main() {
 
 	app.Base.StartApplication(fbr)
 
+	fbr.Shutdown()
+
 	log.Fatal(fbr.Listen(":3000"))
 }
