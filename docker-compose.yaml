@@ -12,8 +12,6 @@ services:
       - .:/go/src/application
     networks:
       - backend
-    depends_on:
-      - jaeger
     ports: 
       - 1212:8080
       - 1213:8081
