@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  # -----------------------------
+  # micro service
+  # -----------------------------
+  micro:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/go/src/application
+    networks:
+      - backend
+    depends_on:
+      - jaeger
+    ports: 
+      - 1212:8080
+      - 1213:8081
+
+  # -----------------------------
+  # postgres database
+  # -----------------------------
+  postgres:
+    image: postgres:13.3
+    restart: unless-stopped
+    volumes: 
+      - psql-micro:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+      POSTGRES_DB: micro
+    networks: 
+      - backend
+
+
+# -----------------------------
+# networks
+# -----------------------------
+networks:
+  backend:
+  frontend:
+
+# -----------------------------
+# volumes
+# -----------------------------
+volumes: 
+  psql-micro:
+    driver: local
+  pgadmin:
+    driver: local
