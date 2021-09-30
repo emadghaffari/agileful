@@ -126,23 +126,53 @@ func TestInitEndpoints(t *testing.T) {
 	}
 }
 
+type BaseMock struct {
+	errConf error
+	errDB   error
+}
+
+func (base BaseMock) StartApplication(fbr *fiber.App) {}
+func (base BaseMock) initEndpoints(fbr *fiber.App)    {}
+func (base BaseMock) initConfigs(path string) error   { return base.errConf }
+func (base BaseMock) initPostgres() error             { return base.errDB }
+
 func TestStartApplication(t *testing.T) {
 	testCases := []struct {
-		desc string
+		desc    string
+		errConf error
+		errDB   error
 	}{
 		{
-			desc: "",
+			desc:    "a",
+			errConf: nil,
+			errDB:   nil,
+		},
+		{
+			desc:    "b",
+			errConf: fmt.Errorf("error"),
+			errDB:   nil,
+		},
+		{
+			desc:    "c",
+			errConf: nil,
+			errDB:   fmt.Errorf("error"),
 		},
 	}
 	for _, tC := range testCases {
+		app := App{}
 		t.Run(tC.desc, func(t *testing.T) {
 			psql := sqlMock{}
 			psql.err = nil
 			postgres.Storage = &psql
 
+			base := BaseMock{}
+			base.errConf = tC.errConf
+			base.errDB = tC.errDB
+			Base = &base
+
 			fbr := fiber.New()
 			go func() {
-				Base.StartApplication(fbr)
+				app.StartApplication(fbr)
 			}()
 			time.Sleep(time.Second * 2)
 			fbr.Shutdown()

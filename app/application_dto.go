@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"time"
 
 	"github.com/gofiber/fiber"
 
@@ -14,8 +13,8 @@ import (
 	"github.com/emadghaffari/agileful/controller"
 )
 
-type Test struct{
-	ID int
+type Test struct {
+	ID   int
 	Name string
 }
 
@@ -34,39 +33,10 @@ func (app App) StartApplication(fbr *fiber.App) {
 	}
 	defer postgres.Storage.DB().Close()
 
-	go func() {
-		for i := 1; i < 100000; i++ {
-			go func() {
-			tx,_:= postgres.Storage.DB().Begin()
-			tx.Model(&Test{ID:i,Name: "Emad"}).Insert()
-			time.Sleep(time.Second)
-			tx.Commit()
-
-			tx2,_:= postgres.Storage.DB().Begin()
-			tx2.Model(&Test{ID: i}).Select()
-			time.Sleep(time.Second)
-			tx2.Commit()
-
-			tx3,_:= postgres.Storage.DB().Begin()
-			v := Test{ID: i,Name:"Emad"}
-			tx3.Model(&v).Where("id=?",v.ID).Update()
-			time.Sleep(time.Second)
-			tx3.Commit()
-
-			tx4,_:= postgres.Storage.DB().Begin()
-			v2 := Test{ID: i,Name:"Emad"}
-			tx4.Model(&v2).Where("id=?",v2.ID).Delete()
-			time.Sleep(time.Second*2)
-			tx4.Commit()
-			}()
-			time.Sleep(time.Millisecond*200)
-		}
-	}()
-
 	// init endpoints
 	Base.initEndpoints(fbr)
 
-	log.Fatal(fbr.Listen(":3000"))
+	log.Print(fbr.Listen(":3000"))
 }
 
 func (app App) initConfigs(path string) error {
