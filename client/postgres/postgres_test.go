@@ -2,12 +2,24 @@ package postgres
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os/exec"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
 	"github.com/emadghaffari/agileful/config"
 )
+
+func configPath() string {
+	path, err := exec.Command("git", "rev-parse", "--show-toplevel").Output()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	return strings.TrimSpace(string(path)) + "/config.yaml"
+}
 
 func TestConnect(t *testing.T) {
 	// Storage.Connect(config)
@@ -66,4 +78,12 @@ func TestClose(t *testing.T) {
 	if err != nil {
 		assert.Error(t, fmt.Errorf("error in close DB"))
 	}
+}
+
+func TestQuery(t *testing.T) {
+	bts, _ := ioutil.ReadFile(configPath())
+	config.Confs.Set(bts)
+	Storage.Connect(config.Confs.Get())
+	Storage.Query("", "")
+	Storage.Close()
 }

@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
 
 	"github.com/emadghaffari/agileful/config"
 )
@@ -30,11 +31,15 @@ func (p *psql) Connect(cnf config.Config) error {
 	return err
 }
 
-func (p psql) DB() *pg.DB {
+func (p *psql) DB() *pg.DB {
 	return p.db
 }
 
-func (p psql) Close() error {
+func (p *psql) Close() error {
 	once = sync.Once{}
 	return p.db.Close()
+}
+
+func (p *psql) Query(model interface{}, query interface{}, params ...interface{}) (res orm.Result, err error) {
+	return p.DB().Query(model, query, params)
 }
