@@ -1,5 +1,5 @@
 package entity
 
 type Error struct {
-	Message string
+	Message string `json:"message"`
 }
