@@ -23,14 +23,17 @@ type Config struct {
 	POSTGRES Database `yaml:"postgres"`
 }
 
+// Get: return config
 func (g Config) Get() Config {
 	return g
 }
 
+// SetDebug: set debug mode for application
 func (g *Config) SetDebug(debug bool) {
 	g.Debug = debug
 }
 
+// Set: set configs
 func (g *Config) Set(data []byte) error {
 	err := yaml.Unmarshal(data, &g)
 	if err != nil {

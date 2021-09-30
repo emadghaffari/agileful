@@ -31,15 +31,18 @@ func (p *psql) Connect(cnf config.Config) error {
 	return err
 }
 
+// DB: return database
 func (p *psql) DB() *pg.DB {
 	return p.db
 }
 
+// Close: close the db pool
 func (p *psql) Close() error {
 	once = sync.Once{}
 	return p.db.Close()
 }
 
+// Query: create custom query
 func (p *psql) Query(model interface{}, query interface{}, params ...interface{}) (res orm.Result, err error) {
 	return p.DB().Query(model, query, params)
 }
