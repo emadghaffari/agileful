@@ -15,38 +15,41 @@ func (f filter) Get(c *fiber.Ctx) {
 	req := entity.Filter{}
 	if err := c.BodyParser(&req); err != nil {
 		c.SendStatus(http.StatusInternalServerError)
-		c.SendBytes(entity.Error(err.Error()))
+		bts, _ := json.Marshal(entity.Error{Message: err.Error()})
+		c.SendBytes(bts)
 		return
 	}
 
 	if id := entity.QueryValidate[req.Query]; id == 0 {
 		c.SendStatus(http.StatusBadRequest)
-		c.SendBytes(entity.Error("Query is invalid [SELECT,INSERT,UPDATE,DELETE]"))
+		bts, _ := json.Marshal(entity.Error{Message: "Query is invalid [SELECT,INSERT,UPDATE,DELETE]"})
+		c.SendBytes(bts)
 		return
 	}
 
-
 	if id := entity.OrderByValidate[req.Order]; id == 0 {
 		c.SendStatus(http.StatusBadRequest)
-		c.SendBytes(entity.Error("Order By is invalid [desc,asc]"))
+		bts, _ := json.Marshal(entity.Error{Message: "Order By is invalid [desc,asc]"})
+		c.SendBytes(bts)
 		return
 	}
 
 	if req.Limit == 0 {
 		c.SendStatus(http.StatusBadRequest)
-		c.SendBytes(entity.Error("limit is invalid"))
+		bts, _ := json.Marshal(entity.Error{Message: "limit is invalid"})
+		c.SendBytes(bts)
 		return
 	}
 
-	resp,err := service.PGActivity.Get(req)
+	resp, err := service.PGActivity.Get(req)
 	if err != nil {
 		c.SendStatus(http.StatusInternalServerError)
-		c.SendBytes(entity.Error(err.Error()))
+		bts, _ := json.Marshal(entity.Error{Message: err.Error()})
+		c.SendBytes(bts)
 		return
 	}
 
-	bts,_:=json.Marshal(entity.PgStatActivityResponse{Count: len(resp),Data: resp})
+	bts, _ := json.Marshal(entity.PgStatActivityResponse{Count: len(resp), Data: resp})
 	c.SendStatus(http.StatusOK)
 	c.SendBytes(bts)
 }
-
