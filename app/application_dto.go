@@ -13,11 +13,6 @@ import (
 	"github.com/emadghaffari/agileful/controller"
 )
 
-type Test struct {
-	ID   int
-	Name string
-}
-
 func (app App) StartApplication(fbr *fiber.App) {
 
 	// init configs
