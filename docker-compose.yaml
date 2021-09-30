@@ -30,6 +30,16 @@ services:
     networks: 
       - backend
 
+  # -----------------------------
+  # adminer
+  # -----------------------------
+  adminer:
+    image: adminer
+    restart: always
+    networks: 
+      - backend
+    ports:
+      - 8080:8080
 
 # -----------------------------
 # networks
