@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
 	"github.com/gofiber/fiber"
 	"github.com/stretchr/testify/assert"
 
@@ -38,6 +39,10 @@ func (s sqlMock) DB() *pg.DB {
 
 func (s sqlMock) Close() error {
 	return nil
+}
+
+func (s *sqlMock) Query(model interface{}, query interface{}, params ...interface{}) (res orm.Result, err error) {
+	return nil, nil
 }
 
 func TestInitPostgres(t *testing.T) {
