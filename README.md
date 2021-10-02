@@ -1,5 +1,4 @@
-# Agileful
-get postgres connected database queries
+# get postgres connected database queries
 
 ## filters
 you can filter by: 
