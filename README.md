@@ -2,7 +2,7 @@
 
 ## filters
 you can filter by: 
-`1- query: SELECT,INSERT,UPDATE,DELETE`\n
+`1- query: SELECT,INSERT,UPDATE,DELETE`/n
 `2- order: desc, asc`
 `3- limit: limit the responses`
 `4- offset: add offset for your response`
