@@ -1,7 +1,7 @@
 # get postgres connected database queries
 
 ## filters
-you can filter by: 
+you can filter by: <br />
 `1- query: SELECT,INSERT,UPDATE,DELETE`<br />
 `2- order: desc, asc`<br />
 `3- limit: limit the responses`<br />
