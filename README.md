@@ -2,10 +2,10 @@
 
 ## filters
 you can filter by: 
-`1- query: SELECT,INSERT,UPDATE,DELETE`/n
-`2- order: desc, asc`
-`3- limit: limit the responses`
-`4- offset: add offset for your response`
+`1- query: SELECT,INSERT,UPDATE,DELETE`<br />
+`2- order: desc, asc`<br />
+`3- limit: limit the responses`<br />
+`4- offset: add offset for your response`<br />
 
 ## pagination
 with limit and offset you can set your pagination model
